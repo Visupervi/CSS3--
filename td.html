@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style type="text/css">
+    .upload {
+      /*padding: 4px 10px;*/
+      /*height: 20px;*/
+      /*line-height: 20px;*/
+      /*position: relative;*/
+      cursor: pointer;
+      color: #888;
+      background: #fafafa;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      /*overflow: hidden;*/
+      /*display: inline-block;*/
+      /**display: inline;*/
+      /**zoom: 1*/
+      display: flex;
+      height: 30px;
+      align-items: center;
+      justify-content: center;
+    }
+    .upload  input {
+      position: absolute;
+      font-size: 100px;
+      right: 0;
+      top: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      cursor: pointer
+    }
+
+    .upload:hover {
+      color: #444;
+      background: #eee;
+      border-color: #ccc;
+      text-decoration: none
+    }
+    .file {
+      position: relative;
+      display: inline-block;
+      background: #D0EEFF;
+      border: 1px solid #99D3F5;
+      border-radius: 4px;
+      padding: 4px 12px;
+      overflow: hidden;
+      color: #1E88C7;
+      text-decoration: none;
+      text-indent: 0;
+      line-height: 20px;
+    }
+    .file input {
+      position: absolute;
+      font-size: 100px;
+      right: 0;
+      top: 0;
+      opacity: 0;
+    }
+    .file:hover {
+      background: #AADFFD;
+      border-color: #78C3F3;
+      color: #004974;
+      text-decoration: none;
+    }
+    .backRed {
+      background-color: red !important;
+    }
+    input[type="radio"]:checked{
+      background-color: red;
+    }
+  </style>
+</head>
+<body>
+<td class="oraNormal oraDisplayCell">
+  <!--<input class="oraInput" oraField="input/fileDate1" type="file" accept="image/x-png,image/gif,image/jpeg,image/bmp">-->
+  <!--<a href=" " class="upload">-->
+    <!--<input onchange="uploadFile1(this);" type="file" name="" id="uploadFile" accept="image/x-png,image/gif,image/jpeg,image/bmp">File upload-->
+  <!--</a >-->
+  <!--<input onClick="uploadFile1(this);" oraMdLabel="UPLOAD_FILE_LBL" class="oraButton btn_uploadfile" type="button" style="text-align:left;">-->
+</td>
+<input type="radio">
+</body>
+</html>

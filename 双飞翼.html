@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>双飞翼</title>
+  <style>
+    .center{
+      height: 500px;
+      /*width: 100%;*/
+      padding: 0 200px;
+      background-color: #fff;
+
+    }
+    .main, .left, .right {
+      height: 500px;
+      float: left;
+
+    }
+
+    .main {
+      background-color: red;
+
+      width: 100%;
+    }
+    .left{
+      height: 100%;
+      width: 200px;
+      position: relative;
+      left: -200px;
+      margin-left: -100%;
+      background-color: green;
+    }
+    .right{
+      height: 100%;
+      width: 200px;
+      position: relative;
+      left: 200px;
+      background-color: yellowgreen;
+      margin-left: -200px;
+    }
+  </style>
+</head>
+<body>
+<div class="center">
+  <div class="main"></div>
+  <div class="left"></div>
+  <div class="right"></div>
+</div>
+</body>
+</html>

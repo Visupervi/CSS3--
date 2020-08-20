@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+
+<script>
+  function init_render(){
+    let paren = document.querySelector("#feedbackTimes").parentNode;
+    let preParent = paren.parentNode;
+    paren.className = "paren";
+    preParent.style.position="absolute";
+    preParent.style.top="375px";
+    preParent.className="layui-col-xs6 layui-col-sm6 layui-col-md6";
+  }
+  function widget_render(data) {
+    let dataArr = data.data.data.rows;
+    echartInit(dataArr.slice(0,16));
+    deleteObj(dataArr,(res)=>{
+      vCreateELem(res);
+    });
+    vChangeListen(dataArr);
+  }
+  function vChangeListen(arr) {
+    let paren = document.querySelector("#feedbackTimes");
+    paren.addEventListener("change",(e)=>{
+      //console.log(e.target.value)
+      let taskTeampArr = [];
+      for(let i = 0; i < arr.length; i++){
+        if(e.target.value === arr[i].task_name){
+          taskTeampArr.push(arr[i]);
+        }
+      }
+      echartInit(taskTeampArr);
+    })
+  }
+  function vCreateELem(arr) {
+    let feedback = document.querySelector("#feedbackTimes");
+    let selectPre = document.createElement("div");
+    selectPre.className = "layui-form js-form";
+    let selectParent = document.createElement("div");
+    let selectParentPre = document.createElement("div");
+    let lableT = document.createElement("lable");
+    lableT.innerHTML = "任务选择";
+    lableT.className = "layui-form-label";
+    lableT.style.color="#9b9b9b";
+    selectParent.className = "layui-form-item1";
+    selectParentPre.className = "layui-input-block";
+    let Iselect = document.createElement("select");
+    Iselect.name = "taskName";
+    let str = ``;
+    for(let i = 0; i < arr.length; i++){
+      str+=`<option value="${arr[i]}">${arr[i]}</option>`
+    }
+    //console.log(str);
+    Iselect.innerHTML = str;
+    //console.log(Iselect);
+    selectParentPre.appendChild(Iselect);
+    selectParent.appendChild(lableT);
+    selectParent.appendChild(selectParentPre);
+    selectPre.appendChild(selectParent);
+    feedback.appendChild(selectPre);
+  }
+  function deleteObj(arr,callback){
+    let arr1 = [];
+    let temp = [];
+    for(let i = 0; i < arr.length ; i++){
+      if(arr[i].task_name !== null){
+        temp.push(arr[i].task_name)
+      }
+
+    }
+    for (let j = temp.length - 1; j >= 0; j--) {
+      if(arr1.indexOf(temp[j]) < 0){
+        arr1.push(temp[j]);
+      }
+    }
+    callback(arr1);
+    return arr1;
+  }
+  function echartInit(data) {
+    //获取元素组件
+    let myChart = echarts.init(document.getElementById('feedbackTimes'));
+    //获取数据
+    //所有年月
+    let allUserMonth = [];
+    //每个月发视频人数
+    let cntAllUser = [];
+    //每个月发的视频数量
+    let cntAllContent = [];
+    let shopNum = [];
+    let eachData;
+    if (data.length > 0) {
+      var myData = data.slice(0,20);
+      for (var index in myData) {
+        eachData = myData[index];
+        allUserMonth.push(eachData.area_name);
+        cntAllUser.push(eachData.feedback_num);
+        cntAllContent.push(eachData.shop_num);
+        shopNum.push(eachData.shop_num);
+      }
+    }
+
+    var option = {
+      "title": {
+        "text": "店铺反馈次数",
+        "x": "left",
+        textStyle:{
+          fontSize:14,
+          fontWeight:600,
+          top:10,
+          color:"#9b9b9b",
+        },
+        top:10
+      },
+      "tooltip": {
+        "trigger": "axis",
+        formatter: function (params, ticket) {
+          var res = "区域" + ' : ' + params[0].name;
+          for (var i = 0, l = params.length; i < l; i++) {
+            res += '<br/>' + params[i].seriesName + ' : ' + params[i].value;
+          }
+          return res;
+        }
+      },
+      "grid": {
+        "borderWidth": 0,
+        "top": 50,
+        x:50,
+        y:15,
+        x2:5,
+        y2:20,
+        height:130,
+        textStyle: {
+          color: "#daa520"
+        }
+      },
+      "calculable": true,
+      "xAxis": [
+        {
+          "type": "category",
+          "axisLine": {
+            lineStyle: {
+              color: '#bbb',
+              width: 1,
+              type: 'line'
+            }
+          },
+          "splitLine": {
+            "show": false
+          },
+          "axisTick": {
+            "show": false
+          },
+          "splitArea": {
+            "show": false
+          },
+          "axisLabel": {
+            "interval": 0,
+            rotate: 25,
+            textStyle:{
+              fontSize:10
+            }
+
+          },
+          "data": allUserMonth,
+        }
+      ],
+      "yAxis": [       {
+        "type": "value",
+        "name":"",
+        "splitLine": {
+          "show": true
+        },
+        "axisLine": {
+          lineStyle: {
+            color: '#bbb',
+            width: 0,
+            type: 'solid'
+          }
+        },
+        "axisTick": {
+          "show": false
+        },
+        "axisLabel": {
+          "interval": 0,
+          formatter: '{value}',
+
+        },
+        "splitArea": {
+          "show": false
+        },
+
+      },
+      ],
+      "series": [
+        {
+          "name": "一次反馈",
+          "type": "bar",
+          stack:'sum',
+          smooth: true,
+          areaStyle:{
+
+          },
+          lineStyle: {
+            color:'#0099FF',
+            width:2,
+          },
+          itemStyle: {
+            color: "#0099FF"
+          },
+          formatter:'{value}'+'%',
+          "data": cntAllUser,
+        },
+        {
+          "name": "二次反馈",
+          "type": "bar",
+          stack:'sum',
+          smooth: true,
+          areaStyle:{
+
+          },
+          lineStyle: {
+            color:'#0099FF',
+            width:2,
+          },
+          itemStyle: {
+            color: "#F7B500"
+          },
+          formatter:'{value}'+'%',
+          "data": cntAllContent,
+        },
+        {
+          "name": "三次反馈",
+          "type": "bar",
+          stack:'sum',
+          smooth: true,
+          areaStyle:{
+
+          },
+          lineStyle: {
+            color:'#0099FF',
+            width:2,
+          },
+          itemStyle: {
+            color:"#61D1B5",
+          },
+          formatter:'{value}'+'%',
+          "data": shopNum,
+        },
+
+      ]
+    }
+    myChart.setOption(option, true);
+    window.addEventListener("resize",function(){
+      myChart.resize();
+
+    });
+  }
+</script>
+</html>
